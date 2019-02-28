@@ -1,0 +1,52 @@
+{
+  "name": "seok-portal",
+  "version": "1.0.0",
+  "description": "login with poatal, sso",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HongYangHT/seok-portal.git"
+  },
+  "keywords": [
+    "vue",
+    "sso",
+    "portal"
+  ],
+  "author": "samhong",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HongYangHT/seok-portal/issues"
+  },
+  "homepage": "https://github.com/HongYangHT/seok-portal#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "cz-conventional-changelog": "^2.1.0",
+    "eslint": "^5.12.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^8.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "husky": "^1.3.1",
+    "lint-staged": "^8.1.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
+  }
+}
