@@ -5,10 +5,12 @@
 > npm i seok-portal -S || npm i seok-portal@xxx -S
 
 ### Useage (应用)
-> 查看应用[文档](/useage.md)
+> 查看应用[文档](/useage.mdg)
 
 ### PR && Commit (提交代码)
 - 使用 commitizen 来格式化 Git commit message
+  - 安装commitizen， npm install -g commitizen
+  - 使用 angular 的 commit 规范 commitizen init cz-conventional-changelog --save-dev --save-exact
 - 提交规则
   - feat: 新功能
   - fix: 修复bug
