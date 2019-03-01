@@ -11,6 +11,7 @@
 |   |---- http #操作拦截器模块
 |   |---- route #操作路由拦截模块
 |   |---- store #操作存储状态的模块
+|   |---- utils #提供功能函数
 |   |---- index.js #入口文件
 |-- .babelrc #babel配置文件
 |-- .editorconfig #编辑器统一设置

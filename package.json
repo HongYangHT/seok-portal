@@ -5,7 +5,7 @@
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config build/webpack.prod.config.js",
+    "build": "webpack --config build/webpack.base.config.js",
     "build:easy": "webpack --config build/webpack.base.config.js"
   },
   "repository": {
@@ -52,8 +52,7 @@
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.2",
     "url-loader": "^1.1.2",
-    "webpack": "^4.29.5",
-    "webpack-cli": "^3.2.3"
+    "webpack": "^4.29.5"
   },
   "config": {
     "commitizen": {
@@ -70,5 +69,8 @@
       "eslint --fix",
       "git add"
     ]
+  },
+  "dependencies": {
+    "js-base64": "^2.5.1"
   }
 }

@@ -13,8 +13,8 @@
   > npm install -g commitizen
   - 使用 angular 的 commit 规范 commitizen init cz-conventional-changelog --save-dev --save-exact
   - 重新安装 husky 与 lint-staged
-  > npm i -D husky
-  > npm i -D lint-staged
+  > npm i -D husky  
+  > npm i -D lint-staged  
   
 - 提交规则
   - feat: 新功能
