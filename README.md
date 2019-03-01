@@ -5,7 +5,7 @@
 > npm i seok-portal -S || npm i seok-portal@xxx -S
 
 ### Useage (应用)
-> 查看应用[文档](/useage.mdg)
+> 查看使用[文档](/USEAGE.md)
 
 ### PR && Commit (提交代码)
 - 使用 commitizen 来格式化 Git commit message
@@ -25,9 +25,9 @@
 
 
 ### 编译和发布
-- 1. npm run build 进行编译和打包
-- 2. 切换到当前项目目录
-- 3. 切换npm源到npm源（https://registry.npmjs.org/）: 只针对有自身源的情况
-- 4. npm login
-- 5. 修改package.json的版本号
-- 6. npm publish
+- npm run build 进行编译和打包
+- 切换到当前项目目录
+- 切换npm源到npm源（https://registry.npmjs.org/）: 只针对有自身源的情况
+- npm login
+- 修改package.json的版本号
+- npm publish
