@@ -1,7 +1,7 @@
 const menu = {
   a: 1,
   b: 6,
-  c: 4
+  c: 6
 }
 
 export {
