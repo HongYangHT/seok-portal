@@ -31,6 +31,7 @@
 > npm i seok-portal -S || npm i seok-portal@xx -S
 
 - 将相关拦截和状态注入到相关的文件中
+> ⚠️：请仔细比对一下代码，代码逻辑不能少
   - http 模块
 
     ```js
@@ -40,13 +41,27 @@
      * handleResponseError (error, authorization)
      * 并将其注入到 模版工程的 http.js 中 
      */
-    import { http } from 'seok-portal'
-    import authorization from 'xx/authorization.js'
+    import {
+      authHttp
+    } from 'seok-portal/src'
+    import authorization from './authorization'
+    import store from './store'
 
     function requestInterceptor (config) {
       ...
-      let conf = http.requestInterceptor(config, authorization, authorization.tokenUri)
-      return merge(config, conf)
+      TGlobalLoading.start()
+      let authConfig = authHttp.requestInterceptor(config, authorization, store.state.authStore)
+      return merge(config, authConfig)
+    }
+    // ⚠️：需要将该拦截器需要注册到相关域中
+
+    // 该错误拦截器是用于token失效时刷新token所用
+    function responseError(error) {
+      TGlobalLoading.error()
+      ...
+      // 注意这里的cb，可以传可以不传
+      authHttp.responseErrorInterceptor (error, authorization, http.$http(这里可以是其他域的实例store.state.authStore, cb)
+      return Promise.reject(error)
     }
     ```
 
@@ -57,11 +72,24 @@
      * router 模块需要在进入路由之前判断注册
      * beforeEach(to, from, next, authorization, requestInstance, cb)
      */
-    import { route } from 'seok-portal'
-    import authorization from 'xx/authorization.js'
+    // ⚠️： 一下代码都不能少，请仔细比对
+    import {
+      authRoute
+    } from 'seok-portal/src'
+
+    import authorization from './authorization'
+    import http from './http'
+    import store from './store'
 
     router.beforeEach((to, from, next) => {
-      route.beforeEach(to, from, next, authorization, http.$xx)
+      authRoute.beforeEach(to, from, next, authorization, http.$http(这里可以是其他域的实例), (accessToken, refreshToken, authState, code) => {
+        store.commit('setAuthState', {
+          accessToken, refreshToken, authState, code
+        })
+        next()
+      })
+      // ⚠️： 这里本身存在的next()的方法，需要注释掉
+      // next()
     })
     ```
 
@@ -70,16 +98,33 @@
   ```js
   /***
    * store 模块用于存储登录状态
-   * 需要将其以模块状态的形式存入
+   * 需要将其以模块状态的形式存入,
+   * 分两步
    */
-   import { auth } from 'seok-portal'
+   import { authStore } from 'seok-portal'
    // 在store.js中注入
    ...
    const store = new Vuex.Store({
      namespaced: true, // 是否带命名方式
      state: {},
+     // 1. 需要增加一个mutations，用于存储 同步 登录信息
+     mutations: {
+       'setAuthState': (state, payload) => {
+        let {
+          accessToken,
+          refreshToken,
+          authState,
+          code
+        } = payload
+        state.authStore.authState = authState
+        state.authStore.code = code
+        state.authStore.accessToken = accessToken
+        state.authStore.refreshToken = refreshToken
+      }
+     },
+     // 2. 注入store
      modules: {
-       auth
+       authStore
      }
    })
    ...
@@ -99,6 +144,16 @@
         accessToken: state => state.auth.accessToken
       })
     }
+  }
+  ```
+
+  - authorization需要进行配置的参数
+  ```js
+  export default {
+    client_id: 'cmiConfidentialWeb', // 客户端名称
+    clientSecret: 'cmiConfidentialWeb%mvno$SixLou', // 客户端密码
+    authorizeUri: 'xx/sso/oauth/authorize', // 用户认证的链接, 此时是测试机地址，生产环境需要将其改成正式环境地址
+    tokenUri: 'xx/sso/oauth/token' // 获取token地址，是测试机地址，生产环境需要将其改成正式环境地址
   }
   ```
 

@@ -3,7 +3,7 @@
  * @LastEditors: sam.hongyang
  * @Description:  请求拦截器
  * @Date: 2019-02-28 15:48:28
- * @LastEditTime: 2019-03-01 15:36:59
+ * @LastEditTime: 2019-03-02 08:56:10
  */
 import {
   Base64
@@ -48,11 +48,12 @@ export function requestInterceptor (config, authorization, auth) {
       config.headers.Authorization = 'Basic ' + Base64.encode(authorization.client_id + ':' + authorization.clientSecret)
     } else {
       // 需要去重新认证
-      if (count && parseInt(count) > 0) {
+      if (!count) {
         storage.set('se_ok_portal_http_count', 1)
+        let url = query.delParam(['code', 'state'])
         let msg = {
           client_id: authorization.client_id,
-          redirect_uri: encodeURIComponent(window.location.href),
+          redirect_uri: encodeURIComponent(url),
           state: uuid.uuid(6, 16)
         }
         window.location.href = authorization.authorizeUri + '?client_id=' + msg.client_id + '&redirect_uri=' + msg.redirect_uri + '&response_type=code&scope=read&state=' + msg.state

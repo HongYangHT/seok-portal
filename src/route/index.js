@@ -3,13 +3,15 @@
  * @LastEditors: sam.hongyang
  * @Description: 路由模块拦截器
  * @Date: 2019-02-28 15:47:58
- * @LastEditTime: 2019-03-01 14:58:25
+ * @LastEditTime: 2019-03-02 09:34:28
  */
 import {
   query,
   uuid,
   storage
 } from '../utils'
+
+import store from '../store'
 
 /**
   * 由登录返回到当前页面
@@ -31,17 +33,22 @@ export async function beforeEach (to, from, next, authorization, requestInstance
   const authState = query.getQuery('state')
   const code = query.getQuery('code')
   let count = storage.get('se_ok_portal_count')
+  let url = query.delParam(['code', 'state'])
   // 1. 一种是带‘ state’ 和‘ code’， 此时是从登录返回来, 此时我们需要去取token
   if (authState && code) {
     try {
       const tokeResponse = await requestInstance.post(authorization.tokenUri + '?code=' + code + '&state=' + authState +
-        '&grant_type=authorization_code' + '&client_id=' + authorization.client_id + '&redirect_uri=' + encodeURIComponent(window.location.href))
+        '&grant_type=authorization_code' + '&client_id=' + authorization.client_id + '&redirect_uri=' + encodeURIComponent(url))
       const accessToken = tokeResponse && tokeResponse.data && tokeResponse.data.access_token
       const refreshToken = tokeResponse && tokeResponse.data && tokeResponse.data.refresh_token
       /**
        * 通过回调函数进行设置access_token 、 refresh_token、state、code
        * 因为在包中无法进行设置
        */
+      store.state.accessToken = accessToken
+      store.state.refreshToken = refreshToken
+      store.state.authState = authState
+      store.state.code = code
       cb(accessToken, refreshToken, authState, code)
     } catch (error) {
       /**
@@ -58,7 +65,7 @@ export async function beforeEach (to, from, next, authorization, requestInstance
 
         let msg = {
           client_id: authorization.client_id,
-          redirect_uri: encodeURIComponent(window.location.href),
+          redirect_uri: encodeURIComponent(url),
           state: uuid.uuid(6, 16)
         }
         window.location.href = authorization.authorizeUri + '?client_id=' + msg.client_id + '&redirect_uri=' + msg.redirect_uri + '&response_type=code&scope=read&state=' + msg.state
