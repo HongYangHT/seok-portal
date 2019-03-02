@@ -60,7 +60,7 @@
       TGlobalLoading.error()
       ...
       // 注意这里的cb，可以传可以不传
-      authHttp.responseErrorInterceptor (error, authorization, http.$http(这里可以是其他域的实例store.state.authStore, cb)
+      authHttp.responseErrorInterceptor (error, authorization, http.$http(这里可以是其他域的实例),store.state.authStore, cb)
       return Promise.reject(error)
     }
     ```
