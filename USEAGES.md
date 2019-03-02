@@ -25,7 +25,7 @@
 ```
 
 ### 使用方式
-> 通过npm包的形式，将本包作为依赖包加入项目中，并通过npm包下载
+> 通过npm包的形式，将本包作为依赖包加入项目中，并通过npm包下载，如果出现bebel报错问题，请尝试 `npm i babel-core@^7.0.0-bridge.0 --save-dev `
 
 - Install
 > npm i seok-portal -S || npm i seok-portal@xx -S
