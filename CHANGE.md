@@ -3,7 +3,7 @@
  * @LastEditors: sam.hongyang
  * @Description: 
  * @Date: 2019-02-28 15:54:50
- * @LastEditTime: 2019-03-02 10:54:03
+ * @LastEditTime: 2019-03-04 10:00:01
  -->
 ### 1.0.0 2019-02-28 15:54:50
 > ci: 搭建webpack环境
@@ -13,3 +13,6 @@
 
 ### 1.0.8 2019-03-02 10:53:44
 > fixed: 修改联调过程中报错的问题
+
+### 1.0.9 2019-03-04 09:59:15
+> chore: 增加.npmignore，过滤掉.babelrc
