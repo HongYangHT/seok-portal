@@ -1,6 +1,6 @@
 {
   "name": "seok-portal",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "login with poatal, sso",
   "main": "lib/index.js",
   "scripts": {
