@@ -43,7 +43,7 @@
      */
     import {
       authHttp
-    } from 'seok-portal/src'
+    } from 'seok-portal'
     import authorization from './authorization'
     import store from './store'
 
@@ -75,7 +75,7 @@
     // ⚠️： 一下代码都不能少，请仔细比对
     import {
       authRoute
-    } from 'seok-portal/src'
+    } from 'seok-portal'
 
     import authorization from './authorization'
     import http from './http'
